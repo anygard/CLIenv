@@ -1,0 +1,142 @@
+"       Copyright 2011 Anders Nygård
+"       
+"       This file is part of CLIenv.
+"       
+"           CLIenv is free software: you can redistribute it and/or modify
+"           it under the terms of the GNU General Public License as published by
+"           the Free Software Foundation, either version 3 of the License, or
+"           (at your option) any later version.
+"       
+"           CLIenv is distributed in the hope that it will be useful,
+"           but WITHOUT ANY WARRANTY; without even the implied warranty of
+"           MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+"           GNU General Public License for more details.
+"       
+"           You should have received a copy of the GNU General Public License
+"           along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+"
+
+
+" some basic and rether self explanatory settings
+colorscheme biogoo
+syntax on
+set showcmd
+"set ruler
+set showmode
+set shiftwidth=4
+set autoindent
+set smartindent
+set smarttab
+set expandtab
+filetype plugin on
+set visualbell
+
+" enable all vim extras
+set nocompatible
+
+" allow for hidden buffers
+set hidden
+
+" statusline pimping
+set laststatus=2
+set statusline=%<%F%h%m%r%h%w%y\ %{&ff}\ %=chr(%b)\ %l\,%c\ %P
+
+" higlighting currentline when in insert mode
+if v:version >= 700
+  autocmd InsertEnter * set cursorline
+  autocmd InsertLeave * set nocursorline
+endif
+
+" disable wrapping of long lines and some settings for handling the resulting
+" long lines
+set nowrap
+set sidescroll=5
+set listchars+=precedes:<,extends:>
+
+" disable matchparen plugin, ie. the cursor won't jump around whenyou type a
+" ), } or ].
+let loaded_matchparen = 1
+
+" allows vim to remeber things between invokations
+" opened buffers and such. Only works if you invoke without parameters
+set viminfo='100,h,%  
+
+" settings for perl-support
+let g:Perl_AuthorName      = 'Anders Nygard'     
+let g:Perl_AuthorRef       = 'AN'                         
+let g:Perl_Email           = 'anders.nygard@anygard.com'            
+let g:Perl_Company         = ''  
+
+" mappings for WinExplorer
+map <c-w><c-f> :FirstExplorerWindow<cr>
+map <c-w><c-b> :BottomExplorerWindow<cr>
+map <c-w><c-t> :WMToggle<cr> 
+
+"map <Up> <Nop>
+"map <Left> <Nop>
+"map <Right> <Nop>
+"map <Down> <Nop>
+imap <Up> <Nop>
+imap <Left> <Nop>
+imap <Right> <Nop>
+imap <Down> <Nop>
+
+
+
+"
+" Functions
+"
+
+" a function that toggles mouse support
+function! MouseToggle()
+    if &mouse == 'a'
+	set mouse=
+	echo 'Mouse disabled'
+    else
+	set mouse=a
+	echo 'Mouse enabled'
+    endif
+endfunction
+
+" a function that toggles mouse support
+function! PasteToggle()
+    if &paste
+	set nopaste
+	echo 'Paste mode disabled'
+    else
+	set paste
+	echo 'Paste mode enabled'
+    endif
+endfunction
+
+" a mapping for functions
+map <Leader>mt :call MouseToggle()<cr>
+
+map <Leader>pt :call PasteToggle()<cr>
+
+" buffer handling shortcuts
+map <c-b><c-1> :1buffer<cr>
+map <c-b><c-2> :2buffer<cr>
+map <c-b><c-3> :3buffer<cr>
+map <c-b><c-4> :4buffer<cr>
+map <c-b><c-5> :5buffer<cr>
+map <c-b><c-6> :6buffer<cr>
+map <c-b><c-7> :7buffer<cr>
+map <c-b><c-8> :8buffer<cr>
+map <c-b><c-9> :9buffer<cr>
+
+map <c-b><c-n> :bnext<cr>
+map <c-b><c-p> :bprev<cr>
+
+command! Quit :call SmartQuit()
+function! SmartQuit()
+  try
+    if bufnr('$') > 1
+      exec ':bdelete'
+    endif
+  catch
+    echohl ErrorMsg | echo v:exception | echohl NONE
+  endtry
+endfunction
+
+

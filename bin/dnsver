@@ -1,0 +1,103 @@
+#!/usr/bin/perl
+
+#       Copyright 2011 Anders Nygård
+#       
+#       This file is part of CLIenv.
+#       
+#           CLIenv is free software: you can redistribute it and/or modify
+#           it under the terms of the GNU General Public License as published by
+#           the Free Software Foundation, either version 3 of the License, or
+#           (at your option) any later version.
+#       
+#           CLIenv is distributed in the hope that it will be useful,
+#           but WITHOUT ANY WARRANTY; without even the implied warranty of
+#           MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#           GNU General Public License for more details.
+#       
+#           You should have received a copy of the GNU General Public License
+#           along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+
+use strict;
+use English;
+
+my $RED = 31;
+my $GREEN = 32;
+
+sub output {
+    my ($text, $color) = @_;
+    if ( -t STDOUT ) {
+        $text = "\e[${color}m" . $text . "\e[0m";
+    }
+    print "$text\n";
+}
+
+my @nameservers = ('ns1.uni2.se', 'ns2.uni2.se');
+
+LINE: while (<>) {
+    next LINE if (/^\s*$/);
+
+    s/^\s*//;
+
+    my ($name,$class,$type,$ip,$ip2) = split(/\s+/);
+
+    #print "'$name', '$class', '$type', '$ip'\n";
+
+    if ($class eq 'A' or $class eq 'CNAME') {
+        $ip = $type;
+        $type = $class;
+    }
+
+    foreach my $ns (@nameservers) {
+        my $option = '';
+        if ($type eq 'MX') {
+            $option = '-t MX';
+        }
+        my $result = `host $option $name $ns`;
+        print "$ns\t$name\t$ip\t$ip2\t\t";
+        if ($type eq 'A') {
+            if ($result =~ /has address (\S+)/) {
+                if ($1 eq $ip) {
+                    output('OK', $GREEN);
+                } else {
+                    output('FAIL', $RED);
+                }
+            } else {
+                print "Error during resolv: $result\n";
+            }
+
+        } elsif ($type eq 'CNAME') {
+            if ($result =~ /is an alias for (\S+)/) {
+                my $vip = $1;
+                $vip =~ s/\.$//;
+                $ip =~ s/\.$//;
+                #print "1: $vip ip: $ip\n";
+                if ($vip eq $ip) {
+                    output('OK', $GREEN);
+                } else {
+                    output('FAIL', $RED);
+                }
+            } else {
+                print "Error during resolv: $result\n";
+            }
+        } elsif ($type eq 'MX') {
+            if ($result =~ /is handled by (\d+)\s+(\S+)/) {
+                my $prio = $1;
+                my $server = $2;
+                $ip2 =~ s/\.$//;
+                $server =~ s/\.$//;
+                #print "prio: $prio server: $server ";
+                #print "ip $ip ip2: $ip2\n";
+                if ($prio eq $ip and $server eq $ip2) {
+                    output('OK', $GREEN);
+                } else {
+                    output('FAIL', $RED);
+                }
+            } else {
+                print "Error during resolv: $result\n";
+            }
+        } else {
+            print "Unknown record type ($type)\n";
+        }
+    }
+
+}
