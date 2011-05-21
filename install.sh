@@ -21,38 +21,68 @@ GITDIR=CLIenv
 TARGET_PREFIX=.$GITDIR
 LINK_PREFIX=~
 
-if [ -e $TARGET_PREFIX ]; then
-    echo "$TARGET_PREFIX allready exist"
-    echo 1
-fi
-
-mv $PWD/../$GITDIR $PWD/../$TARGET_PREFIX 
-if [ $? -ne 0 ]; then
-    echo "Could not move $GITDIR to $TARGET_PREFIX"
-    exit 2
-fi
-
 TARGET[0]=$TARGET_PREFIX/bin
 LINK[0]=$LINK_PREFIX/bin
 
 TARGET[1]=$TARGET_PREFIX/theme
 LINK[1]=$LINK_PREFIX/.theme
-
+            
 TARGET[2]=$TARGET_PREFIX/vim/vimrc
 LINK[2]=$LINK_PREFIX/.vimrc
 
 TARGET[3]=$TARGET_PREFIX/vim/vim
 LINK[3]=$LINK_PREFIX/.vim
 
-i=0
-while [ $i -le 3 ] ; do
-    if [ -s ${LINK[$i]} ] ; then
-            mv ${LINK[$i]} ${LINK[$i]}.orig
-    fi 
-    ln -s ${TARGET[$i]} ${LINK[$i]}
-    i=$[ $i + 1 ]
-done
+if [ "$1" = "" ]; then
+    COMMAND="INSTALL"
+fi
+COMMAND=$1
 
-cat <<EOF | cat >> ~/.bashrc
-test -s ~/.theme/theme.sh && . ~/.theme/theme.sh gnome-terminal || true
-EOF
+case $COMMAND in 
+
+    INSTALL)
+            if [ -e $TARGET_PREFIX ]; then
+                echo "$TARGET_PREFIX allready exist"
+                echo 1
+            fi
+
+            mv $PWD/../$GITDIR $PWD/../$TARGET_PREFIX 
+            if [ $? -ne 0 ]; then
+                echo "Could not move $GITDIR to $TARGET_PREFIX"
+                exit 2
+            fi
+
+            i=0
+            while [ $i -le 3 ] ; do
+                if [ -s ${LINK[$i]} ] ; then
+                        mv ${LINK[$i]} ${LINK[$i]}.orig
+                fi 
+                ln -s ${TARGET[$i]} ${LINK[$i]}
+                i=$[ $i + 1 ]
+            done
+
+            cat <<EOF | cat >> ~/.bashrc
+            test -s ~/.theme/theme.sh && . ~/.theme/theme.sh gnome-terminal || true
+            EOF
+            ;;
+
+    UNINSTALL)
+            ;;
+
+    DELETE)
+            ;;
+
+    GETUPDATES)
+            git fetch upstream && git merge upstream/master
+            ;;
+
+    PUSHUPDATES)
+            git push origin master
+            ;;
+
+    *)
+            echo "Usage: $0 [INSTALL|UNINSTALL|DELETE|GETUPDATES|PUSHUPDATES]"
+            exit 3
+            ;;
+
+esac
