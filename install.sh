@@ -17,30 +17,30 @@
 #           You should have received a copy of the GNU General Public License
 #           along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
-TARGET_PREFIX=clienv
+TARGET_PREFIX=CLIenv
 LINK_PREFIX=~
 
-TARGET[0]=$PREFIX/bin
+TARGET[0]=$TARGET_PREFIX/bin
 LINK[0]=$LINK_PREFIX/bin
 
-TARGET[1]=$PREFIX/theme
+TARGET[1]=$TARGET_PREFIX/theme
 LINK[1]=$LINK_PREFIX/.theme
 
-TARGET[2]=$PREFIX/vim/vimrc
+TARGET[2]=$TARGET_PREFIX/vim/vimrc
 LINK[2]=$LINK_PREFIX/.vimrc
 
-TARGET[3]=$PREFIX/vim/vim
+TARGET[3]=$TARGET_PREFIX/vim/vim
 LINK[3]=$LINK_PREFIX/.vim
 
 i=0
 while [ $i -le 3 ] ; do
-    if [ -s $LINK[$i] ] ; then
-            mv $LINK[$i] $LINK[$i].orig
+    if [ -s ${LINK[$i]} ] ; then
+            mv ${LINK[$i]} ${LINK[$i]}.orig
     fi 
-    ln -s $TARGET[$i] $LINK[$i]
+    ln -s ${TARGET[$i]} ${LINK[$i]}
     i=$[ $i + 1 ]
 done
 
-cat <<EOF | ssh $target "cat >> .bashrc"
+cat <<EOF | cat >> ~/.bashrc
 test -s ~/.theme/theme.sh && . ~/.theme/theme.sh gnome-terminal || true
 EOF

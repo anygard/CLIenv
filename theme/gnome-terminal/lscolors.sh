@@ -95,5 +95,7 @@ ex=$EXECUTABLE:\
 *.wav=$MULTIMEDIA:\
 "
 
+# OS X works a bit differently, or rahter BSD does
+export LSCOLORS="exfxcxdxbxegedabagacad"
 
 
