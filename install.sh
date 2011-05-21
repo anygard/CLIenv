@@ -17,8 +17,20 @@
 #           You should have received a copy of the GNU General Public License
 #           along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
-TARGET_PREFIX=CLIenv
+GITDIR=CLIenv
+TARGET_PREFIX=.$GITDIR
 LINK_PREFIX=~
+
+if [ -e $TARGET_PREFIX ]; then
+    echo "$TARGET_PREFIX allready exist"
+    echo 1
+fi
+
+mv $PWD/../$GITDIR $PWD/../$TARGET_PREFIX 
+if [ $? -ne 0 ]; then
+    echo "Could not move $GITDIR to $TARGET_PREFIX"
+    exit 2
+fi
 
 TARGET[0]=$TARGET_PREFIX/bin
 LINK[0]=$LINK_PREFIX/bin
