@@ -67,11 +67,6 @@ let g:Perl_AuthorRef       = 'AN'
 let g:Perl_Email           = 'anders.nygard@anygard.com'            
 let g:Perl_Company         = ''  
 
-" mappings for WinExplorer
-map <c-w><c-f> :FirstExplorerWindow<cr>
-map <c-w><c-b> :BottomExplorerWindow<cr>
-map <c-w><c-t> :WMToggle<cr> 
-
 "map <Up> <Nop>
 "map <Left> <Nop>
 "map <Right> <Nop>
