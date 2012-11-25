@@ -17,6 +17,8 @@
 #           You should have received a copy of the GNU General Public License
 #           along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
+SELF=$_
+
 GITDIR=CLIenv
 TARGET_PREFIX=.$GITDIR
 LINK_PREFIX=~
@@ -33,22 +35,27 @@ LINK[2]=$LINK_PREFIX/.vimrc
 TARGET[3]=$TARGET_PREFIX/vim/vim
 LINK[3]=$LINK_PREFIX/.vim
 
-if [ "$1" = "" ]; then
-    COMMAND="INSTALL"
-fi
-COMMAND=$1
+SOURCE=`dirname $SELF`
+THETARGET=$LINK_PREFIX/$TARGET_PREFIX
 
-case $COMMAND in 
+if [ "$1" = "" ]; then
+    COMMAND=INSTALL
+else
+	COMMAND=$1
+fi
+
+case "$COMMAND" in 
 
     INSTALL)
             if [ -e $TARGET_PREFIX ]; then
                 echo "$TARGET_PREFIX allready exist"
-                echo 1
+                exit 1
             fi
-
-            mv $PWD/../$GITDIR $PWD/../$TARGET_PREFIX 
+            
+            mv $SOURCE $THETARGET
+            #mv $PWD/../$GITDIR $PWD/../$TARGET_PREFIX
             if [ $? -ne 0 ]; then
-                echo "Could not move $GITDIR to $TARGET_PREFIX"
+                echo "Could not move $SOURCE to $THETARGET"
                 exit 2
             fi
 
@@ -61,9 +68,9 @@ case $COMMAND in
                 i=$[ $i + 1 ]
             done
 
-            cat <<EOF | cat >> ~/.bashrc
+            cat <<EOF | cat >> ~/.bashrc # perhaps .bash_profile is better?
             test -s ~/.theme/theme.sh && . ~/.theme/theme.sh gnome-terminal || true
-            EOF
+EOF
             ;;
 
     UNINSTALL)
@@ -78,6 +85,10 @@ case $COMMAND in
 
     PUSHUPDATES)
             git push origin master
+            ;;
+
+    PACKAGE)
+            tar czf $LINK_PREFIX/$GITDIR.tar.gz $SOURCE 
             ;;
 
     *)
