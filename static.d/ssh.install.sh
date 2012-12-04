@@ -1,3 +1,5 @@
+#!/bin/bash
+
 #       Copyright 2011 Anders Nygård
 #       
 #       This file is part of CLIenv.
@@ -14,8 +16,24 @@
 #       
 #           You should have received a copy of the GNU General Public License
 #           along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
-PATH=/sbin:/usr/sbin/:~/bin:$PATH
-MYVIMRC=~/.CLIenv/vim/vimrc
-MYGVIMRC=~/.CLIenv/vim/gvimrc
-EDITOR=`which vim`
-VISUAL=$EDITOR
+
+
+set -x
+
+SRC="$1/misc/ssh.conf"
+TRGDIR="$2/.ssh/"
+TRG="$TRGDIR/config"
+
+if [ ! -d $TRGDIR ]; then
+    mkdir $TRGDIR 
+    chmod a=,u=rwx $TRGDIR
+fi
+
+if [ -e $SRC ]; then
+    if [ ! -e $TRG ]; then
+	ln -s $SRC $TRG
+    else
+	echo "Not able to install SSH config file, please, merge manually $TRG.add into $TRG"
+	cp $SRC $TRG.add
+    fi
+fi

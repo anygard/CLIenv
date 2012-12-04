@@ -1,3 +1,5 @@
+#!/bin/bash
+
 #       Copyright 2011 Anders Nygård
 #       
 #       This file is part of CLIenv.
@@ -14,8 +16,16 @@
 #       
 #           You should have received a copy of the GNU General Public License
 #           along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
-PATH=/sbin:/usr/sbin/:~/bin:$PATH
-MYVIMRC=~/.CLIenv/vim/vimrc
-MYGVIMRC=~/.CLIenv/vim/gvimrc
-EDITOR=`which vim`
-VISUAL=$EDITOR
+
+
+set -x
+
+SRCDIR=$1
+TRGDIR=$2
+
+FILES="vimrc gvimrc vim"
+for f in $FILES ; do
+    if [ -e $SRCDIR/vim/$f -a ! -e $TRGDIR/.$f ]; then
+	ln -s $SRCDIR/vim/$f $TRGDIR/.$f
+    fi
+done

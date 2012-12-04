@@ -15,7 +15,7 @@
 #           You should have received a copy of the GNU General Public License
 #           along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 PATH=/sbin:/usr/sbin/:~/bin:$PATH
-MYVIMRC=~/.CLIenv/vim/vimrc
-MYGVIMRC=~/.CLIenv/vim/gvimrc
+#MYVIMRC=~/.CLIenv/vim/vimrc
+#MYGVIMRC=~/.CLIenv/vim/gvimrc
 EDITOR=`which vim`
 VISUAL=$EDITOR

@@ -15,10 +15,51 @@
 "           You should have received a copy of the GNU General Public License
 "           along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 "
+set nocompatible               " be iMproved
+filetype off                   " required!
 
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
 
-" some basic and rether self explanatory settings
-colorscheme biogoo
+ " let Vundle manage Vundle
+ " required! 
+ Bundle 'gmarik/vundle'
+
+Bundle 'perl-support.vim'
+let g:Perl_AuthorName      = 'Anders Nygard'     
+let g:Perl_AuthorRef       = 'AN'                         
+let g:Perl_Email           = 'anders.nygard@anygard.com'            
+let g:Perl_Company         = ''  
+
+Bundle 'tpope/vim-fugitive'
+
+" Powerline
+Bundle 'Lokaltog/vim-powerline'
+let g:Powerline_symbols = 'unicode'
+
+Bundle 'minibufexplorerpp'
+Bundle 'The-NERD-tree'
+Bundle 'snipMate'
+Bundle 'snipmate-snippets'
+
+" color schemes
+Bundle 'moria'
+Bundle 'molokai'
+Bundle 'Zenburn'
+let g:zenburn_high_Contrast=1
+
+" Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
+" Bundle 'tpope/vim-rails.git'
+" vim-scripts repos
+" Bundle 'L9'
+" Bundle 'FuzzyFinder'
+" non github repos
+" Bundle 'git://git.wincent.com/command-t.git'
+
+set nocompatible   " Disable vi-compatibility
+set laststatus=2   " Always show the statusline
+set encoding=utf-8 " Necessary to show Unicode glyphs
+
 syntax on
 set showcmd
 "set ruler
@@ -26,20 +67,19 @@ set showmode
 set shiftwidth=4
 set autoindent
 set smartindent
-set smarttab
-set expandtab
-filetype plugin on
+set smarttab 
+" set expandtab
 set visualbell
-
-" enable all vim extras
-set nocompatible
+filetype plugin indent on     " required! by vundle
+colorscheme molokai
 
 " allow for hidden buffers
 set hidden
 
-" statusline pimping
-set laststatus=2
-set statusline=%<%F%h%m%r%h%w%y\ %{&ff}\ %=chr(%b)\ %l\,%c\ %P
+" statusline pimping 
+" obsoleted by powerline, kept ut of sentimental reasons
+" set laststatus=2
+" set statusline=%<%F%h%m%r%h%w%y\ %{&ff}\ %=chr(%b)\ %l\,%c\ %P
 
 " higlighting currentline when in insert mode
 if v:version >= 700
@@ -61,11 +101,6 @@ let loaded_matchparen = 1
 " opened buffers and such. Only works if you invoke without parameters
 set viminfo='100,h,%  
 
-" settings for perl-support
-let g:Perl_AuthorName      = 'Anders Nygard'     
-let g:Perl_AuthorRef       = 'AN'                         
-let g:Perl_Email           = 'anders.nygard@anygard.com'            
-let g:Perl_Company         = ''  
 
 "map <Up> <Nop>
 "map <Left> <Nop>

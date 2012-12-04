@@ -1,0 +1,5 @@
+"let moria_style = 'light' 
+"colorscheme moria
+colo anyzell
+edit ~/.bash_profile
+set guifont=Monaco:h12

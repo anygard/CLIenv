@@ -1,3 +1,5 @@
+#!/bin/bash
+
 #       Copyright 2011 Anders Nygård
 #       
 #       This file is part of CLIenv.
@@ -14,8 +16,41 @@
 #       
 #           You should have received a copy of the GNU General Public License
 #           along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
-PATH=/sbin:/usr/sbin/:~/bin:$PATH
-MYVIMRC=~/.CLIenv/vim/vimrc
-MYGVIMRC=~/.CLIenv/vim/gvimrc
-EDITOR=`which vim`
-VISUAL=$EDITOR
+
+function usage {
+    echo "usage: $0 <theme>"
+    exit 1
+}
+
+if [ "$1" = "" ]; then
+    usage
+fi
+
+THEMEDIR=$HOME/.theme/$1
+
+if [ ! -d $THEMEDIR ]; then
+    echo "Theme dir non existant ($THEMEDIR)"
+    exit 2
+fi
+
+pushd $THEMEDIR > /dev/null
+for a in *.sh ; do
+    if [ -x $a ]; then
+        source ./$a
+    fi
+done
+popd > /dev/null
+
+COMMONDIR=$HOME/.theme/common
+if [ ! -d $COMMONDIR ]; then
+    echo "Theme dir non existant ($COMMONDIR)"
+    exit 2
+fi
+
+pushd $COMMONDIR > /dev/null
+for a in *.sh ; do
+    if [ -x $a ]; then
+        source ./$a
+    fi
+done
+popd > /dev/null
