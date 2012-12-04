@@ -1,0 +1,5 @@
+TODO List
+ - remove all traces of theme
+ - debug vim config, snipMate duplicates
+ - re-visit jc with regards to tmux and ssh-agent
+ - incorprate tmux config
