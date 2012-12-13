@@ -41,6 +41,7 @@ Bundle 'minibufexplorerpp'
 Bundle 'The-NERD-tree'
 Bundle 'snipMate'
 Bundle 'snipmate-snippets'
+Bundle 'Puppet-Syntax-Highlighting'
 
 " color schemes
 Bundle 'moria'
