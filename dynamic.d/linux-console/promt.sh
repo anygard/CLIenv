@@ -1,4 +1,4 @@
-#       Copyright 2011 Anders Nygård
+#       Copyright 2011, 2012, 2013 Anders Nygård
 #       
 #       This file is part of CLIenv.
 #       
@@ -13,7 +13,7 @@
 #           GNU General Public License for more details.
 #       
 #           You should have received a copy of the GNU General Public License
-#           along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+#           along with CLIenv.  If not, see <http://www.gnu.org/licenses/>.
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 echo "TERM:${TERM}"
