@@ -17,11 +17,15 @@
 #           You should have received a copy of the GNU General Public License
 #           along with CLIenv.  If not, see <http://www.gnu.org/licenses/>.
 
-set -x
-THISDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-INSTALLDIR="$HOME/foo"
-INSTALLDIR="$HOME"
+if [ "$CLIENV_DEBUG" = "Y" ]; then
+    set -x
+    INSTALLDIR="$HOME/foo"
+else
+    INSTALLDIR="$HOME"
+fi
 TARGET="$INSTALLDIR/.CLIenv"
+
+THISDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 if [ "$THISDIR" != "$TARGET" ]; then
     if [ -d $TARGET ]; then
