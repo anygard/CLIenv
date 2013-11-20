@@ -54,41 +54,60 @@ else
 fi
 COMMAND=`echo $COMMAND | tr 'a-z' 'A-Z'`
 
-if [ "$COMMAND" = "TAR" ]; then
-    pushd "$THISDIR/.."
-    dir=`echo $THISDIR | awk -F/ '{print $NF}'`
-    tar czf "$INSTALLDIR/CLIenv.tar.gz" $dir
-    exit $?
-fi
+case "$COMMAND" in 
+    TAR)
+	pushd "$THISDIR/.."
+	dir=`echo $THISDIR | awk -F/ '{print $NF}'`
+	tar czf "$INSTALLDIR/CLIenv.tar.gz" $dir
+	exit $?
+	;;
+	
+    LIST)
+	pushd $SCRIPTDIR > /dev/null
+	for f in `ls *.sh` ; do
+	   name=`./$script NAME` 
+	   desc=`./$script DESCRIBE` 
+	   echo "$name - $desc"
+	done
+	popd
+	;;
 
-SCRIPTDIR="$THISDIR/static.d" 
-if [ -d "$SCRIPTDIR" ] ; then
+    ENABLE|DISABLE)
+	SCRIPTDIR="$THISDIR/static.d" 
+	if [ -d "$SCRIPTDIR" ] ; then
 
-    pushd $SCRIPTDIR > /dev/null
+	    pushd $SCRIPTDIR > /dev/null
 
-    # reverse order when removing
-    LSOPT=""
-    if [ "$COMMAND" = "DISABLE" ]; then
-	LSOPT="-r"
-    fi
+	    # reverse order when removing
+	    LSOPT=""
+	    if [ "$COMMAND" = "DISABLE" ]; then
+		LSOPT="-r"
+	    fi
 
-    # filter on optional specific static modules to execute
-    TMPF=`mktemp`
-    TMPF2=`mktemp`
-    ls $LSOPT *.sh > $TMPF
-    if [ ! -z $SUBSET ]; then
-	grep $SUBSET $TMPF > $TMPF2
-    else
-	cat $TMPF > $TMPF2
-    fi
+	    # filter on optional specific static modules to execute
+	    TMPF=`mktemp`
+	    TMPF2=`mktemp`
+	    ls $LSOPT *.sh > $TMPF
+	    if [ ! -z $SUBSET ]; then
+		grep $SUBSET $TMPF > $TMPF2
+	    else
+		cat $TMPF > $TMPF2
+	    fi
 
-    # iterate over all remaing static modules
-    for script in `cat $TMPF2` ; do
-	if [ -x $script ] ; then
-	    ./$script "$TARGET" "$INSTALLDIR" "$COMMAND"
+	    # iterate over all remaing static modules
+	    for script in `cat $TMPF2` ; do
+		if [ -x $script ] ; then
+		    ./$script "$TARGET" "$INSTALLDIR" "$COMMAND"
+		fi
+	    done
+	    rm $TMPF $TMPF2
+	    popd > /dev/null
 	fi
-    done
-    rm $TMPF $TMPF2
-    popd > /dev/null
-fi
+	;;
 
+    *)
+	echo "Usage: $0 <ENABLE|DISABLE|LIST> [modules]"
+	exit 1
+	;;
+
+esac
