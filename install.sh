@@ -25,6 +25,14 @@ else
 fi
 TARGET="$INSTALLDIR/.CLIenv"
 
+if [ "`uname -s`" = "Darwin" ]; then
+    if [ ! -e "/opt/local/etc/macports/" ]; then
+	echo "MacPorts installation not detected"
+	echo -e "\nsudo ports install coreutils"
+	exit
+    fi
+fi
+
 THISDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 if [ "$THISDIR" != "$TARGET" ]; then
@@ -38,7 +46,7 @@ if [ "$THISDIR" != "$TARGET" ]; then
     exit 0
 fi
 
-
+# INSTALL is the default command
 if [ "$1" = "" ]; then
     COMMAND=INSTALL
 else
@@ -60,7 +68,7 @@ if [ -d "$SCRIPTDIR" ] ; then
     pushd $SCRIPTDIR > /dev/null
     for script in `ls *.$COMMAND.sh | sort` ; do
 	if [ -x $script ] ; then
-	    ./$script "$TARGET" "$INSTALLDIR"
+	    ./$script "$TARGET" "$INSTALLDIR" "COMMAND"
 	fi
     done
     popd > /dev/null

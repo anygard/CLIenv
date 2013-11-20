@@ -17,7 +17,8 @@
 #           You should have received a copy of the GNU General Public License
 #           along with CLIenv.  If not, see <http://www.gnu.org/licenses/>.
 
-. ~/.theme/attributes.sh
+THISDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source $THISDIR/../attributes.sh
 
 EXECUTABLE=$GREEN
 REGULAR=$DEFAULT
@@ -95,7 +96,38 @@ ex=$EXECUTABLE:\
 *.wav=$MULTIMEDIA:\
 "
 
+
+
 # OS X works a bit differently, or rahter BSD does
-export LSCOLORS="exfxcxdxbxegedabagacad"
+# a     black
+# b     red
+# c     green
+# d     brown
+# e     blue
+# f     magenta
+# g     cyan
+# h     light grey
+# A     bold black, usually shows up as dark grey
+# B     bold red
+# C     bold green
+# D     bold brown, usually shows up as yellow
+# E     bold blue
+# F     bold magenta
+# G     bold cyan
+# H     bold light grey; looks like bright white
+# x     default foreground or background
+
+DIR=ex
+SYMLINK=fx
+SOCKET=cx
+PIPE=dx
+EXEC=bx
+BLOCK=eg
+CHAR=ed
+SUID=ab
+GUID=ag
+SWO=ac
+SWWO=ad
+export LSCOLORS="$SYMLINK$SOCKET$PIPE$EXEC$BLOCK$CHAR$SUID$GUID$SWO$SWWO"
 
 
