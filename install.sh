@@ -48,29 +48,47 @@ fi
 
 # INSTALL is the default command
 if [ "$1" = "" ]; then
-    COMMAND=INSTALL
+    COMMAND=ENABLE
 else
     COMMAND=$1
 fi
+COMMAND=`echo $COMMAND | tr 'a-z' 'A-Z'`
 
-# install dynamic hook
-HOOK="$TARGET/dynamic.sh"
-for f in ".bash_profile" ".bashrc" ; do
-    if ! grep "$HOOK" $INSTALLDIR/$f ; then
-	echo -e "\n# CLIenv dynamic hook\ntest -s $HOOK && . $HOOK || true" >> $INSTALLDIR/$f
-    fi
-done
-
-COMMAND=`echo $COMMAND | tr 'A-Z' 'a-z'`
+if [ "$COMMAND" = "TAR" ]; then
+    pushd "$THISDIR/.."
+    dir=`echo $THISDIR | awk -F/ '{print $NF}'`
+    tar czf "$INSTALLDIR/CLIenv.tar.gz" $dir
+    exit $?
+fi
 
 SCRIPTDIR="$THISDIR/static.d" 
 if [ -d "$SCRIPTDIR" ] ; then
+
     pushd $SCRIPTDIR > /dev/null
-    for script in `ls *.$COMMAND.sh | sort` ; do
+
+    # reverse order when removing
+    LSOPT=""
+    if [ "$COMMAND" = "DISABLE" ]; then
+	LSOPT="-r"
+    fi
+
+    # filter on optional specific static modules to execute
+    TMPF=`mktemp`
+    TMPF2=`mktemp`
+    ls $LSOPT *.sh > $TMPF
+    if [ ! -z $SUBSET ]; then
+	grep $SUBSET $TMPF > $TMPF2
+    else
+	cat $TMPF > $TMPF2
+    fi
+
+    # iterate over all remaing static modules
+    for script in `cat $TMPF2` ; do
 	if [ -x $script ] ; then
-	    ./$script "$TARGET" "$INSTALLDIR" "COMMAND"
+	    ./$script "$TARGET" "$INSTALLDIR" "$COMMAND"
 	fi
     done
+    rm $TMPF $TMPF2
     popd > /dev/null
 fi
 
