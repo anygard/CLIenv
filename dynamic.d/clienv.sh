@@ -1,5 +1,3 @@
-#!/bin/bash
-
 #       Copyright 2011, 2012, 2013 Anders Nygård
 #       
 #       This file is part of CLIenv.
@@ -17,23 +15,8 @@
 #           You should have received a copy of the GNU General Public License
 #           along with CLIenv.  If not, see <http://www.gnu.org/licenses/>.
 
-if [ "$CLIENV_DEBUG" = "Y" ]; then
-    set -x
-fi
-
-THISDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-DYNDIR=$THISDIR/dynamic.d
-if [ ! -e $DYNDIR ]; then
-    echo "dynamic dir does not exist, $DYNDIR"
-    exit 2
-fi
-
-pushd $DYNDIR > /dev/null
-
-for a in *.sh ; do
-    if [ -f $a -a -x $a ]; then
-	source ./$a
-    fi
-done
-
-popd > /dev/null
+PATH=~/bin:$PATH
+#MYVIMRC=~/.CLIenv/vim/vimrc
+#MYGVIMRC=~/.CLIenv/vim/gvimrc
+EDITOR=`which vim`
+VISUAL=$EDITOR
