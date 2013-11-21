@@ -37,3 +37,7 @@ for a in *.sh ; do
 done
 
 popd > /dev/null
+
+if [ "$CLIENV_DEBUG" = "Y" ]; then
+    set +x
+fi
