@@ -19,11 +19,17 @@
 
 SRC=$1/bin
 TRG=$2/bin
+INST=$3/bin
+CMD=$4
 
-case $3 in 
+if [ "$CLIENV_DEBUG" = "Y" ]; then
+    set -x
+fi
+
+case $CMD in 
     ENABLE)
-	if [ -d $SRC -a ! -L $TRG ]; then
-	    ln -s $SRC $TRG
+	if [ -d $TRG -a ! -L $INST ]; then
+	    ln -s $TRG $INST
 	fi
 	;;
 
@@ -32,12 +38,12 @@ case $3 in
 	;;
 
     DESCRIBE)
-	echo "create ~./bin dir"
+	echo "create ~/bin dir"
 	;;
 
     DISABLE)
-	if [ -L $TRG ]; then
-	    rm $TRG
+	if [ -L $INST ]; then
+	    rm $INST
 	fi
 	;;
 esac

@@ -17,12 +17,19 @@
 #           You should have received a copy of the GNU General Public License
 #           along with CLIenv.  If not, see <http://www.gnu.org/licenses/>.
 
-HOOK="$TARGET/dynamic.sh"
-case $3 in
+SRC=$1
+TRG=$2
+INST=$3
+CMD=$4
+
+HOOK="$TRG/dynamic.sh"
+FILES=".bash_profile .bashrc"
+
+case $CMD in
     ENABLE)
-	for f in ".bash_profile" ".bashrc" ; do
-	    if ! grep "$HOOK" $INSTALLDIR/$f ; then
-		echo -e "\n# CLIenv dynamic hook\ntest -s $HOOK && . $HOOK || true" >> $INSTALLDIR/$f
+	for f in $FILES ; do
+	    if ! grep "$HOOK" $INST/$f ; then
+		echo -e "\n# CLIenv dynamic hook\ntest -s $HOOK && . $HOOK || true" >> $INST/$f
 	    fi
 	done
 	;;

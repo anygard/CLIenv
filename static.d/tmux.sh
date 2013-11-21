@@ -19,22 +19,35 @@
 
 SRC="$1/misc/tmux.conf"
 TRG="$2/.tmux.conf"
+INST=$3
+CMD=$4
 
-case $3 in
-    INSTALL)
-	if [ -e $SRC ]; then
-	    if [ ! -e $TRG ]; then
-		ln -s $SRC $TRG
+SOURCE="$TRG/misc/tmux.conf"
+TARGET="$INST/.tmux.conf"
+
+case $CMD in
+    ENABLE)
+	if [ -e $SOURCE ]; then
+	    if [ ! -e $TARGET ]; then
+		ln -s $SOURCE $TARGET
 	    else
-		echo "Not able to install tmux config file, please, merge manually $TRG.add into $TRG"
-		cp $SRC $TRG.add
+		echo "Not able to install tmux config file, please, merge manually $TARGET.add into $TARGET"
+		cp $SOURCE $TARGET.add
 	    fi
 	fi
 	;;
 
-    REMOVE)
-	if [ -e $TRG ]; then
-		rm $TRG
+    NAME)
+	echo "tmux"
+	;;
+
+    DESCRIBE)
+	echo "Config file for tmux"
+	;;
+
+    DISABLE)
+	if [ -e $TARGET ]; then
+		rm $TARGET
 	fi
 	;;
 

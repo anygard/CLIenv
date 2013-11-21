@@ -22,35 +22,31 @@ TRG=$2
 INST=$3
 CMD=$4
 
-SRCDIR=$TRG
-TRGDIR=$INST
-
-FILES="vimrc gvimrc vim"
-
 case $CMD in 
     ENABLE)
-	for f in $FILES ; do
-	    if [ -e $SRCDIR/vim/$f -a ! -e $TRGDIR/.$f ]; then
-		ln -s $SRCDIR/vim/$f $TRGDIR/.$f
+	if [ "$SRC" != "$TRG" ]; then
+	    if [ -d $TRG ]; then
+		echo "$TRG ellready exist"
+		exit 2
 	    fi
-	done
+	    if [ "$CLIENV_DEBUG" = "Y" ]; then
+		cp -a $SRC $TRG
+	    else
+		mv $SRC $TRG
+	    fi
+	fi
 	;;
 
     NAME)
-	echo "vim"
+	echo "install"
 	;;
 
     DESCRIBE)
-	echo "Complete vim configuration"
+	echo "install in correct dir"
 	;;
 
     DISABLE)
-	for f in $FILES ; do
-	    foo=$TRGDIR/.$f
-	    if [ -e $foo ]; then
-		rm $foo
-	    fi
-	done
+	echo "Ignored"
 	;;
-
 esac
+

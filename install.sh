@@ -19,7 +19,7 @@
 
 if [ "$CLIENV_DEBUG" = "Y" ]; then
     set -x
-    INSTALLDIR="$HOME/foo"
+    INSTALLDIR="$HOME/foobar"
 else
     INSTALLDIR="$HOME"
 fi
@@ -34,46 +34,41 @@ if [ "`uname -s`" = "Darwin" ]; then
 fi
 
 THISDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
-if [ "$THISDIR" != "$TARGET" ]; then
-    if [ -d $TARGET ]; then
-	echo "$TARGET ellready exist"
-	exit 2
-    fi
-    mv $THISDIR $TARGET
-    cd $TARGET
-    $TARGET/static.sh $1
-    exit 0
-fi
+SCRIPTDIR="$THISDIR/static.d" 
 
 # INSTALL is the default command
 if [ "$1" = "" ]; then
-    COMMAND=ENABLE
+    COMMAND="ENABLE"
 else
     COMMAND=$1
 fi
 COMMAND=`echo $COMMAND | tr 'a-z' 'A-Z'`
 
+if [ ! -z "$3" ]; then
+    SUBSET=$3
+fi
+
 case "$COMMAND" in 
     TAR)
 	pushd "$THISDIR/.."
 	dir=`echo $THISDIR | awk -F/ '{print $NF}'`
-	tar czf "$INSTALLDIR/CLIenv.tar.gz" $dir
-	exit $?
+	tar czf "$INSTALLDIR/$dir.tar.gz" $dir
+	res=$?
+	popd
+	exit $res
 	;;
 	
     LIST)
 	pushd $SCRIPTDIR > /dev/null
 	for f in `ls *.sh` ; do
-	   name=`./$script NAME` 
-	   desc=`./$script DESCRIBE` 
+	   name=`./$f foo bar NAME` 
+	   desc=`./$f foo bar DESCRIBE` 
 	   echo "$name - $desc"
 	done
 	popd
 	;;
 
     ENABLE|DISABLE)
-	SCRIPTDIR="$THISDIR/static.d" 
 	if [ -d "$SCRIPTDIR" ] ; then
 
 	    pushd $SCRIPTDIR > /dev/null
@@ -85,8 +80,9 @@ case "$COMMAND" in
 	    fi
 
 	    # filter on optional specific static modules to execute
-	    TMPF=`mktemp`
-	    TMPF2=`mktemp`
+	    prog=`basename $0`
+	    TMPF=`mktemp /tmp/$prog.XXXXXXX`
+	    TMPF2=`mktemp /tmp/$prog.XXXXXXX`
 	    ls $LSOPT *.sh > $TMPF
 	    if [ ! -z $SUBSET ]; then
 		grep $SUBSET $TMPF > $TMPF2
@@ -97,7 +93,7 @@ case "$COMMAND" in
 	    # iterate over all remaing static modules
 	    for script in `cat $TMPF2` ; do
 		if [ -x $script ] ; then
-		    ./$script "$TARGET" "$INSTALLDIR" "$COMMAND"
+		    ./$script "$THISDIR" "$TARGET" "$INSTALLDIR" "$COMMAND"
 		fi
 	    done
 	    rm $TMPF $TMPF2
