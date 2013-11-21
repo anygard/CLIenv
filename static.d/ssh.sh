@@ -26,8 +26,8 @@ if [ "$CLIENV_DEBUG" = "Y" ]; then
     set -x
 fi
 
-SRCFILE="$1/misc/ssh.conf"
-TRGDIR="$INST/.ssh/"
+SRCFILE="$TRG/misc/ssh.conf"
+TRGDIR="$INST/.ssh"
 TRGFILE="$TRGDIR/config"
 
 case $CMD in 

@@ -44,11 +44,36 @@ else
 fi
 COMMAND=`echo $COMMAND | tr 'a-z' 'A-Z'`
 
-if [ ! -z "$3" ]; then
-    SUBSET=$3
+if [ ! -z "$2" ]; then
+    SUBSET=$2
+fi
+
+if [ ! -d "$SCRIPTDIR" ] ; then
+    echo "$SCRIPTDIR missing."
+    exit 1
+fi
+
+pushd $SCRIPTDIR > /dev/null
+
+# reverse order when removing
+LSOPT=""
+if [ "$COMMAND" = "DISABLE" ]; then
+    LSOPT="-r"
+fi
+
+# filter on optional specific static modules to execute
+PROG=`basename $0`
+TMPF=`mktemp /tmp/$PROG.XXXXXXX`
+TMPF2=`mktemp /tmp/$PROG.XXXXXXX`
+ls $LSOPT *.sh > $TMPF
+if [ ! -z $SUBSET ]; then
+    grep $SUBSET $TMPF > $TMPF2
+else
+    cat $TMPF > $TMPF2
 fi
 
 case "$COMMAND" in 
+
     TAR)
 	pushd "$THISDIR/.."
 	dir=`echo $THISDIR | awk -F/ '{print $NF}'`
@@ -60,45 +85,22 @@ case "$COMMAND" in
 	
     LIST)
 	pushd $SCRIPTDIR > /dev/null
-	for f in `ls *.sh` ; do
-	   name=`./$f foo bar NAME` 
-	   desc=`./$f foo bar DESCRIBE` 
+	for f in `cat $TMPF2` ; do
+	   name=`./$f 1 2 3 NAME` 
+	   desc=`./$f 1 2 3 DESCRIBE` 
 	   echo "$name - $desc"
 	done
 	popd
 	;;
 
     ENABLE|DISABLE)
-	if [ -d "$SCRIPTDIR" ] ; then
 
-	    pushd $SCRIPTDIR > /dev/null
-
-	    # reverse order when removing
-	    LSOPT=""
-	    if [ "$COMMAND" = "DISABLE" ]; then
-		LSOPT="-r"
+	# iterate over all remaing static modules
+	for script in `cat $TMPF2` ; do
+	    if [ -x $script ] ; then
+		./$script "$THISDIR" "$TARGET" "$INSTALLDIR" "$COMMAND"
 	    fi
-
-	    # filter on optional specific static modules to execute
-	    prog=`basename $0`
-	    TMPF=`mktemp /tmp/$prog.XXXXXXX`
-	    TMPF2=`mktemp /tmp/$prog.XXXXXXX`
-	    ls $LSOPT *.sh > $TMPF
-	    if [ ! -z $SUBSET ]; then
-		grep $SUBSET $TMPF > $TMPF2
-	    else
-		cat $TMPF > $TMPF2
-	    fi
-
-	    # iterate over all remaing static modules
-	    for script in `cat $TMPF2` ; do
-		if [ -x $script ] ; then
-		    ./$script "$THISDIR" "$TARGET" "$INSTALLDIR" "$COMMAND"
-		fi
-	    done
-	    rm $TMPF $TMPF2
-	    popd > /dev/null
-	fi
+	done
 	;;
 
     *)
@@ -107,3 +109,7 @@ case "$COMMAND" in
 	;;
 
 esac
+
+popd > /dev/null
+rm $TMPF $TMPF2
+

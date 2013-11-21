@@ -17,8 +17,12 @@
 #           You should have received a copy of the GNU General Public License
 #           along with CLIenv.  If not, see <http://www.gnu.org/licenses/>.
 
-SRC="$1/misc/tmux.conf"
-TRG="$2/.tmux.conf"
+if [ "$CLIENV_DEBUG" = "Y" ]; then
+    set -x
+fi
+
+SRC=$1
+TRG=$2
 INST=$3
 CMD=$4
 
