@@ -17,20 +17,27 @@
 #           You should have received a copy of the GNU General Public License
 #           along with CLIenv.  If not, see <http://www.gnu.org/licenses/>.
 
+
 if [ "$CLIENV_DEBUG" = "Y" ]; then
     set -x
 fi
 
 THISDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 DYNDIR=$THISDIR/dynamic.d
+CONF_FILE=$THISDIR/etc/dynamic.conf
+
 if [ ! -e $DYNDIR ]; then
     echo "dynamic dir does not exist, $DYNDIR"
     exit 2
 fi
 
+if [ -e $CONF_FILE ]; then
+    source $CONF_FILE
+fi
+
 pushd $DYNDIR > /dev/null
 
-for a in *.sh ; do
+for a in `ls *sh` ; do
     if [ -f $a -a -x $a ]; then
 	source ./$a
     fi

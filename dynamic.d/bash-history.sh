@@ -17,5 +17,5 @@ export HISTCONTROL=ignoreboth
 # time stamps in .bash_history
 export HISTTIMEFORMAT='%F %T '
 
-#comitting history to disk on each prompt
-#export PROMPT_COMMAND='history -a'
+#comitting history to disk on each prompt, the () are critical
+PROMPT_COMMAND_ARRAY+=('history -a')

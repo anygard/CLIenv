@@ -17,6 +17,8 @@
 #           You should have received a copy of the GNU General Public License
 #           along with CLIenv.  If not, see <http://www.gnu.org/licenses/>.
 
+source palette.sh
+
 # set a fancy prompt (non-color, unless we know we "want" color)
 function pcfunc {
     pwd=`echo ${PWD} | awk -v h="$HOME" '{gsub(h,"~") ; print}'`
@@ -32,9 +34,9 @@ case "$TERM" in
 
 	. ../attributes.sh
 
-	CLERROR="$DEFAULT;$RED"
-	CLUSERHOST="$DEFAULT;$GREEN"
-	CLPATH="$DEFAULT;$BLUE"
+	CLERROR=$RED
+	CLUSERHOST=$GREEN
+	CLPATH=$LIGHTBLUE3
 
 	EXITCODE=
 

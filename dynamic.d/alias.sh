@@ -14,14 +14,21 @@
 #       
 #           You should have received a copy of the GNU General Public License
 #           along with CLIenv.  If not, see <http://www.gnu.org/licenses/>.
+
+GNU='ls --color=auto'
+BSD='ls -G'
+
 case `uname -s` in
     Darwin)
-        alias ls='ls -G'
+	if ls --version > /dev/null ; then
+	    alias ls=$GNU
+	else
+	    alias ls=$BSD
+	fi
         ;;
     Linux)
-        alias ls='ls --color=auto'
+	alias ls=$GNU
         ;;
-
 esac
 
 alias !=sudo
