@@ -36,7 +36,7 @@ fi
 
 pushd $VISDIR > /dev/null
 
-for a in *.sh ; do
+for a in `ls *.sh` ; do
     if [ -f $a -a -x $a ]; then
 	source ./$a
     fi
