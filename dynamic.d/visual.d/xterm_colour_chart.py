@@ -7,6 +7,8 @@ Ian Ward, 2007-2012
 This file is in the Public Domain, do with it as you wish.
 """
 
+# shamelessly stolen from https://github.com/wardi/xterm_colour_chart
+
 import sys
 from optparse import OptionParser
 
