@@ -34,9 +34,7 @@ xterm-color|xterm|screen|screen-color|screen-256color|screen-bce|xterm-256color)
 
     EXITCODE=
 
-#    export PS1='$(Q=$?; if [ "$Q" -eq "0" ]; then echo "\A";  else printf "\[\e[00;31m\]%05d\[\e[00m\]" $Q; fi) \j \[\033[00;32m\]\u@\h\[\033[00m\]:\[\033[00;94m\]\w\[\033[00m\]\$ '
-    #export PS1="\`Q=\$?; if [ \"\$Q\" -eq \"0\" ]; then echo \"\A\"; else printf \"\[\e[${CLERROR}m\]%05d\" $Q; fi\`\[\033[00m\] \j \[\033[${CLUSERHOST}m\]\u@\h\[\033[00m\]:\[\033[${CLPATH}m\]\w\[\033[00m\]\$\033]0;\u@\h:\w\007 "
-    export PS1="\`Q=\$?; if [ \"\$Q\" -eq \"0\" ]; then echo \"\A\"; else printf \"\[\e[${CLERROR}m\]%05d\" \"\$Q\"; fi\`\[\033[00m\] \j \[\033[${CLUSERHOST}m\]\u@\h\[\033[00m\]:\[\033[${CLPATH}m\]\w\[\033[00m\]\$ "
+    export PS1="$PROMPT_INFO_FRAMEWORK\`Q=\$?; if [ \"\$Q\" -eq \"0\" ]; then echo \"\A\"; else printf \"\[\e[${CLERROR}m\]%05d\" \"\$Q\"; fi\`\[\033[00m\] \j \[\033[${CLUSERHOST}m\]\u@\h\[\033[00m\]:\[\033[${CLPATH}m\]\w\[\033[00m\]\$ "
     ;;
 *)
     PS1='\u@\h:\w\$ '

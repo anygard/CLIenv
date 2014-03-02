@@ -1,8 +1,0 @@
-LABEL=virtualenv
-if [ -z $VIRTUAL_ENV ] ; then
-    #no output
-    exit
-fi
-DATA=$(basename $VIRTUAL_ENV)
-
-PROMPT_INFO_FRAMEWORK+=(${LABEL}\t${DATA})

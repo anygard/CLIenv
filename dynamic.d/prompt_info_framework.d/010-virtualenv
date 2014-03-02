@@ -1,0 +1,9 @@
+LABEL=pve
+DATA=""
+if [ "$VIRTUAL_ENV" ] ; then
+    DATA=$(basename $VIRTUAL_ENV)
+fi
+
+if [ $DATA ] ; then
+    PROMPT_INFO_ARRAY+=($(echo -e "${LABEL}\\${DATA}"))
+fi
