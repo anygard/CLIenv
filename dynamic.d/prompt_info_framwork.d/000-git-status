@@ -1,0 +1,27 @@
+FOO=$(mktemp)
+LABEL=git
+if git status &> $FOO ; then
+    if BAR=$(grep "# on branch $FOO") ; then
+        BRANCH=$(echo $BAR | cut -d' ' -f4)
+    else
+        DATA="ERROR"
+    fi
+    if $(grep "nothing to commit" ; then
+        DIRTY="+"
+    else
+        DIRTY=""
+    fi
+    if [ -z $DATA ] ; then
+        DATA="${BRANCH}${DIRTY}"
+    fi
+else
+    if grep "Not a git repository" $FOO ; then
+        # no output
+        exit 0
+    else
+        DATA="ERROR" 
+    fi
+fi
+rm $FOO
+
+PROMPT_INFO_FRAMEWORK+=(${LABEL}\t${DATA})
