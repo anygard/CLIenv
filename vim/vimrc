@@ -48,6 +48,11 @@ Bundle 'moria'
 Bundle 'molokai'
 Bundle 'Zenburn'
 let g:zenburn_high_Contrast=1
+0
+Bundle 'Solarized'
+
+Bundle 'vim-flake8'
+Bundle 'virtualenv.vim'
 
 " Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
 " Bundle 'tpope/vim-rails.git'
@@ -66,6 +71,8 @@ set showcmd
 "set ruler
 set showmode
 set shiftwidth=4
+set tabstop=4
+set expandtab
 set autoindent
 set smartindent
 set smarttab 
