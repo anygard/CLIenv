@@ -3,5 +3,5 @@ LABEL=jbs
 DATA=$(jobs | wc -l)
 
 if [ $DATA -ne 0 ] ; then
-    PROMPT_INFO_ARRAY+=($(echo -e "${LABEL}\\${DATA}"))
+    echo -e "${LABEL}\\${DATA}")
 fi
