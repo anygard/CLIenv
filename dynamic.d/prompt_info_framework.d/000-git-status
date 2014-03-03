@@ -23,5 +23,5 @@ fi
 rm $FOO
 
 if [ $DATA ]; then
-    echo -e "${LABEL}\\${DATA}")
+    echo -e "${LABEL}\\${DATA}"
 fi
