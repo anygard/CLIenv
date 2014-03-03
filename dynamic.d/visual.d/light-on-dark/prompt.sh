@@ -18,16 +18,16 @@
 #           along with CLIenv.  If not, see <http://www.gnu.org/licenses/>.
 
 # set a fancy prompt (non-color, unless we know we "want" color)
-function pcfunc {
+function prompt_prep {
     pwd=`echo ${PWD} | awk -v h="$HOME" '{gsub(h,"~") ; print}'`
     echo -ne "\033]0;${USER}@${HOSTNAME}: ${pwd}\007"
 }
-PROMPT_COMMAND='pcfunc'
+PROMPT_COMMAND_ARRAY+=(prompt_prep)
 
 
 case "$TERM" in
 xterm-color|xterm|screen|screen-color|screen-256color|screen-bce|xterm-256color)
-    . ~/.theme/attributes.sh
+    . ~/.CLIenv/dynamic.d/visual.d/attributes.sh
     CLERROR="$DEFAULT;$RED"
     CLUSERHOST="$DEFAULT;$GREEN"
     CLPATH="$DEFAULT;$LIGHTBLUE"
