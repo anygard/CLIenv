@@ -23,5 +23,5 @@ fi
 rm $FOO
 
 if [ $DATA ]; then
-    PROMPT_INFO_ARRAY+=($( echo -e "${LABEL}\\${DATA}"))
+    echo -e "${LABEL}\\${DATA}"
 fi
