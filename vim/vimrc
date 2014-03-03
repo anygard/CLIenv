@@ -25,22 +25,18 @@ call vundle#rc()
  " required! 
  Bundle 'gmarik/vundle'
 
-Bundle 'perl-support.vim'
-let g:Perl_AuthorName      = 'Anders Nygard'     
-let g:Perl_AuthorRef       = 'AN'                         
-let g:Perl_Email           = 'anders.nygard@anygard.com'            
-let g:Perl_Company         = ''  
-
 Bundle 'tpope/vim-fugitive'
 
 " Powerline
 Bundle 'Lokaltog/vim-powerline'
 let g:Powerline_symbols = 'unicode'
 
-Bundle 'minibufexplorerpp'
-Bundle 'The-NERD-tree'
-Bundle 'snipMate'
-Bundle 'snipmate-snippets'
+Bundle 'https://github.com/fholgado/minibufexpl.vim.git'
+let g:miniBufExplMapWindowNavVim = 1 
+let g:miniBufExplMapWindowNavArrows = 1 
+let g:miniBufExplMapCTabSwitchBufs = 1 
+let g:miniBufExplModSelTarget = 1 
+
 Bundle 'Puppet-Syntax-Highlighting'
 
 " color schemes
@@ -109,11 +105,6 @@ let loaded_matchparen = 1
 " opened buffers and such. Only works if you invoke without parameters
 set viminfo='100,h,%  
 
-
-"map <Up> <Nop>
-"map <Left> <Nop>
-"map <Right> <Nop>
-"map <Down> <Nop>
 imap <Up> <Nop>
 imap <Left> <Nop>
 imap <Right> <Nop>
