@@ -7,8 +7,9 @@ if git status &> $FOO ; then
     else
         DATA="ERROR"
     fi
-    if grep "nothing to commit" $FOO ; then
+    if grep "nothing to commit" $FOO > /dev/null ; then
         DIRTY=""
+
     else
         DIRTY="+"
     fi
@@ -16,7 +17,7 @@ if git status &> $FOO ; then
         DATA="${BRANCH}${DIRTY}"
     fi
 else
-    if grep -v "Not a git repository" $FOO ; then
+    if grep -v "Not a git repository" $FOO > /dev/null ; then
         DATA="ERROR" 
     fi
 fi
