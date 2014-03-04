@@ -11,14 +11,16 @@ function prompt_info_framework {
         if [ -x $f ] ; then
             BUFFER=$(source $f)
             if [ "$BUFFER" ]; then
-                LABEL=$(echo $BUFFER | cut -d\\ -f1)
-                DATA=$(echo $BUFFER | cut -d\\ -f2)
+                LABEL=$(echo $BUFFER | cut -d: -f1)
+                DATA=$(echo $BUFFER | cut -d: -f2)
                 echo -en "${DELIM}\033[38;5;${PROMPT_INFO_LABEL_COL}m${LABEL}\033[0m:\033[38;5;${PROMPT_INFO_DATA_COL}m${DATA}\033[0m"
+                #echo -en "${DELIM}(\033[38;5;${PROMPT_INFO_LABEL_COL}m${LABEL}\033[0m:\033[38;5;${PROMPT_INFO_DATA_COL}m${DATA}\033[0m)"
+                #DELIM="--"
                 DELIM=" "
             fi
         fi
     done
-    if [[ $DELIM = " " ]]; then
+    if [[ $DELIM != "" ]]; then
         echo
     fi
 

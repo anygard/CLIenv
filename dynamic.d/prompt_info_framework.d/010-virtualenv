@@ -5,5 +5,5 @@ if [ "$VIRTUAL_ENV" ] ; then
 fi
 
 if [ $DATA ] ; then
-    echo -e "${LABEL}\\${DATA}"
+    echo -e "${LABEL}:${DATA}"
 fi
