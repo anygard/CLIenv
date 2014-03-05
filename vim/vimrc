@@ -63,13 +63,14 @@ let loaded_matchparen = 1
 " opened buffers and such. Only works if you invoke without parameters
 set viminfo='100,h,%  
 
+
+# plugin stuff
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
- " let Vundle manage Vundle
- " required! 
- Bundle 'gmarik/vundle'
-
+" let Vundle manage Vundle
+" required! 
+Bundle 'gmarik/vundle'
 
 " Powerline
 "Bundle 'Lokaltog/vim-powerline'
