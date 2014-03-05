@@ -15,60 +15,15 @@
 "           You should have received a copy of the GNU General Public License
 "           along with CLIenv.  If not, see <http://www.gnu.org/licenses/>.
 "
+"
 set nocompatible               " be iMproved
 filetype off                   " required!
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-
- " let Vundle manage Vundle
- " required! 
- Bundle 'gmarik/vundle'
-
-Bundle 'perl-support.vim'
-let g:Perl_AuthorName      = 'Anders Nygard'     
-let g:Perl_AuthorRef       = 'AN'                         
-let g:Perl_Email           = 'anders.nygard@anygard.com'            
-let g:Perl_Company         = ''  
-
-Bundle 'tpope/vim-fugitive'
-
-" Powerline
-Bundle 'Lokaltog/vim-powerline'
-let g:Powerline_symbols = 'unicode'
-
-Bundle 'minibufexplorerpp'
-Bundle 'The-NERD-tree'
-Bundle 'snipMate'
-Bundle 'snipmate-snippets'
-Bundle 'Puppet-Syntax-Highlighting'
-
-" color schemes
-Bundle 'moria'
-Bundle 'molokai'
-Bundle 'Zenburn'
-let g:zenburn_high_Contrast=1
-0
-Bundle 'Solarized'
-
-Bundle 'vim-flake8'
-Bundle 'virtualenv.vim'
-
-" Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
-" Bundle 'tpope/vim-rails.git'
-" vim-scripts repos
-" Bundle 'L9'
-" Bundle 'FuzzyFinder'
-" non github repos
-" Bundle 'git://git.wincent.com/command-t.git'
-
-set nocompatible   " Disable vi-compatibility
 set laststatus=2   " Always show the statusline
 set encoding=utf-8 " Necessary to show Unicode glyphs
 
 syntax on
 set showcmd
-"set ruler
 set showmode
 set shiftwidth=4
 set tabstop=4
@@ -76,10 +31,9 @@ set expandtab
 set autoindent
 set smartindent
 set smarttab 
-" set expandtab
+set expandtab
 set visualbell
 filetype plugin indent on     " required! by vundle
-colorscheme molokai
 
 " allow for hidden buffers
 set hidden
@@ -105,76 +59,109 @@ set listchars+=precedes:<,extends:>
 " ), } or ].
 let loaded_matchparen = 1
 
-" allows vim to remeber things between invokations
+" allows vim to remeber things between invocations
 " opened buffers and such. Only works if you invoke without parameters
 set viminfo='100,h,%  
 
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
 
-"map <Up> <Nop>
-"map <Left> <Nop>
-"map <Right> <Nop>
-"map <Down> <Nop>
-imap <Up> <Nop>
-imap <Left> <Nop>
-imap <Right> <Nop>
-imap <Down> <Nop>
+ " let Vundle manage Vundle
+ " required! 
+ Bundle 'gmarik/vundle'
 
 
+" Powerline
+"Bundle 'Lokaltog/vim-powerline'
+"let g:Powerline_symbols = 'unicode'
 
-"
-" Functions
-"
+Bundle 'https://github.com/fholgado/minibufexpl.vim.git'
+let g:miniBufExplMaxSize = 1
+let g:miniBufExplSortBy = "mru"
+let g:miniBufExplUseSingleClick = 1
+noremap <A-Tab> :MBEbb<CR>
+noremap <A-S-Tab> :MBEbf<CR>
+noremap <A>b :MBEFocus<CR>
+noremap <Leader>bm :MBEToggleMRU<CR>
+
+Bundle 'https://github.com/airblade/vim-gitgutter.git'
+Bundle 'tpope/vim-fugitive'
+
+Bundle 'Gundo'
+
+Bundle 'https://github.com/bling/vim-airline.git'
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+
+" unicode symbols
+let g:airline_left_sep = '»'
+let g:airline_left_sep = '▶'
+let g:airline_right_sep = '«'
+let g:airline_right_sep = '◀'
+let g:airline_symbols.linenr = '␊'
+let g:airline_symbols.linenr = '␤'
+let g:airline_symbols.linenr = '¶'
+let g:airline_symbols.branch = '⎇'
+let g:airline_symbols.paste = 'ρ'
+let g:airline_symbols.paste = 'Þ'
+let g:airline_symbols.paste = '∥'
+let g:airline_symbols.whitespace = 'Ξ'
+
+
+Bundle 'Puppet-Syntax-Highlighting'
+
+" color schemes
+Bundle 'molokai'
+Bundle 'Solarized'
+Bundle 'jellybeans.vim'
+colorscheme Solarized
+
+" python stuff
+Bundle 'vim-flake8'
+Bundle 'virtualenv.vim'
+
+" spelling
+Bundle 'Engspchk'
+
+" moving around in insertmode just confuses me
+imap <Up> <nop>
+imap <Left> <nop>
+imap <Right> <nop>
+imap <Down> <nop>
+
+"disables Apple HIG movement mappings
+let macvim_skip_cmd_opt_movement = 1
+noremap <A-Up> <C-W>k
+noremap <A-Down> <C-W>j
+noremap <A-Left> <C-W>h
+noremap <A-Right> <C-W>l
 
 " a function that toggles mouse support
 function! MouseToggle()
     if &mouse == 'a'
-	set mouse=
-	echo 'Mouse disabled'
+        set mouse=
+        echo 'Mouse disabled'
     else
-	set mouse=a
-	echo 'Mouse enabled'
+        set mouse=a
+        echo 'Mouse enabled'
     endif
 endfunction
-
-" a function that toggles mouse support
-function! PasteToggle()
-    if &paste
-	set nopaste
-	echo 'Paste mode disabled'
-    else
-	set paste
-	echo 'Paste mode enabled'
-    endif
-endfunction
-
-" a mapping for functions
 map <Leader>mt :call MouseToggle()<cr>
+"map <Leader>mt :set invmouse<cr>
 
-map <Leader>pt :call PasteToggle()<cr>
+set pastetoggle=<Leader>pt
 
-" buffer handling shortcuts
-map <c-b><c-1> :1buffer<cr>
-map <c-b><c-2> :2buffer<cr>
-map <c-b><c-3> :3buffer<cr>
-map <c-b><c-4> :4buffer<cr>
-map <c-b><c-5> :5buffer<cr>
-map <c-b><c-6> :6buffer<cr>
-map <c-b><c-7> :7buffer<cr>
-map <c-b><c-8> :8buffer<cr>
-map <c-b><c-9> :9buffer<cr>
-
-map <c-b><c-n> :bnext<cr>
-map <c-b><c-p> :bprev<cr>
-
-command! Quit :call SmartQuit()
-function! SmartQuit()
-  try
-    if bufnr('$') > 1
-      exec ':bdelete'
+" toggle a higlight at &textwidth, for keeping line sufficiently short
+function! ColorColumn()
+    if &colorcolumn == ''
+        set colorcolumn=+1
+    else
+        set colorcolumn=""
     endif
-  catch
-    echohl ErrorMsg | echo v:exception | echohl NONE
-  endtry
 endfunction
+map <Leader>ll :call ColorColumn()<cr>
+
+
 
 
