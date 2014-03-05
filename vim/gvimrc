@@ -1,6 +1,7 @@
 "       Copyright 2011, 2012, 2013 Anders Nygård
 "
 "       This file is part of CLIenv.
+Bundle 'minibufexpl.vim'
 "
 "           CLIenv is free software: you can redistribute it and/or modify
 "           it under the terms of the GNU General Public License as published by
