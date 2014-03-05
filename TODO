@@ -1,5 +1,7 @@
 TODO List
- - debug vim config, snipMate duplicates
  - re-visit jc with regards to tmux and ssh-agent
  - incorprate tmux config
  - Make sure GNU notice is at the top of every file
+ - vim spell checking needs attention
+ - bash_completion, get it to work
+ - look at terminal and CLIenv theming in concert
