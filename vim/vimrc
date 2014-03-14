@@ -63,8 +63,10 @@ let loaded_matchparen = 1
 " opened buffers and such. Only works if you invoke without parameters
 set viminfo='100,h,%  
 
+"disables Apple HIG movement mappings
+let macvim_skip_cmd_opt_movement = 1
 
-# plugin stuff
+" plugin stuff
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
@@ -82,7 +84,7 @@ let g:miniBufExplSortBy = "mru"
 let g:miniBufExplUseSingleClick = 1
 noremap <A-Tab> :MBEbb<CR>
 noremap <A-S-Tab> :MBEbf<CR>
-noremap <A>b :MBEFocus<CR>
+noremap <A-b> :MBEFocus<CR>
 noremap <Leader>bm :MBEToggleMRU<CR>
 
 Bundle 'https://github.com/airblade/vim-gitgutter.git'
@@ -131,12 +133,12 @@ imap <Left> <nop>
 imap <Right> <nop>
 imap <Down> <nop>
 
-"disables Apple HIG movement mappings
-let macvim_skip_cmd_opt_movement = 1
 noremap <A-Up> <C-W>k
 noremap <A-Down> <C-W>j
 noremap <A-Left> <C-W>h
 noremap <A-Right> <C-W>l
+
+noremap <A-p> "0p
 
 " a function that toggles mouse support
 function! MouseToggle()
@@ -155,6 +157,9 @@ set pastetoggle=<Leader>pt
 
 " toggle a higlight at &textwidth, for keeping line sufficiently short
 function! ColorColumn()
+    if ! &textwidth 
+        set &textwidth=78
+    endif
     if &colorcolumn == ''
         set colorcolumn=+1
     else

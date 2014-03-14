@@ -1,11 +1,12 @@
+#!/bin/bash
 FOO=$(mktemp)
 LABEL=git
 DATA=""
 if git status &> $FOO ; then
-    if BAR=$(grep "# On branch" $FOO) ; then
-        BRANCH=$(echo $BAR | cut -d' ' -f4)
+    if BAR=$(grep "On branch" $FOO) ; then
+        BRANCH=$(echo $BAR | awk '{print $NF}')
     else
-        DATA="ERROR"
+        DATA="ERROR1"
     fi
     if grep "nothing to commit" $FOO > /dev/null ; then
         DIRTY=""
@@ -18,7 +19,7 @@ if git status &> $FOO ; then
     fi
 else
     if grep -v "Not a git repository" $FOO > /dev/null ; then
-        DATA="ERROR" 
+        DATA="ERROR2"
     fi
 fi
 rm $FOO
