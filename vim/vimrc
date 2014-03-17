@@ -124,8 +124,13 @@ colorscheme Solarized
 Bundle 'vim-flake8'
 Bundle 'virtualenv.vim'
 
-" spelling
-Bundle 'Engspchk'
+"lets get the NERD on
+Bundle 'The-NERD-tree'
+Bundle 'The-NERD-Commenter'
+
+"vim-session manager, needs vim-misc
+Bundle 'https://github.com/xolox/vim-misc.git'
+Bundle 'https://github.com/xolox/vim-session.git'
 
 " moving around in insertmode just confuses me
 imap <Up> <nop>
