@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 #       Copyright 2011, 2012, 2013 Anders Nygård
 #       

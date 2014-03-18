@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 function refresh_prompt {
     if [ $VIRTUAL_ENV ]; then

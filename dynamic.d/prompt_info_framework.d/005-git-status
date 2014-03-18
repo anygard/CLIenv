@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 FOO=$(mktemp)
 LABEL=git
 DATA=""

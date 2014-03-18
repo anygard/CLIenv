@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 export PROMPT_INFO_ARRAY=()
 export PROMPT_INFO_LABEL_COL=105

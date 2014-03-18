@@ -38,7 +38,7 @@ filetype plugin indent on     " required! by vundle
 " allow for hidden buffers
 set hidden
 
-" statusline pimping 
+" statusline pimping
 " obsoleted by powerline, kept ut of sentimental reasons
 " set laststatus=2
 " set statusline=%<%F%h%m%r%h%w%y\ %{&ff}\ %=chr(%b)\ %l\,%c\ %P
@@ -61,7 +61,7 @@ let loaded_matchparen = 1
 
 " allows vim to remeber things between invocations
 " opened buffers and such. Only works if you invoke without parameters
-set viminfo='100,h,%  
+set viminfo='100,h,%
 
 "disables Apple HIG movement mappings
 let macvim_skip_cmd_opt_movement = 1
@@ -71,7 +71,7 @@ set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
 " let Vundle manage Vundle
-" required! 
+" required!
 Bundle 'gmarik/vundle'
 
 " Powerline
@@ -124,13 +124,19 @@ colorscheme Solarized
 Bundle 'vim-flake8'
 Bundle 'virtualenv.vim'
 
-"lets get the NERD on
+"let's get the NERD on
 Bundle 'The-NERD-tree'
+noremap <Leader>nt :NERDTreeToggle<cr>
+
 Bundle 'The-NERD-Commenter'
 
 "vim-session manager, needs vim-misc
 Bundle 'https://github.com/xolox/vim-misc.git'
 Bundle 'https://github.com/xolox/vim-session.git'
+let g:session_autosave = 1
+let g:session_autoload = 1
+let g:session_autosave_periodic = 5
+let g:session_default_name = v:servername
 
 " moving around in insertmode just confuses me
 imap <Up> <nop>
@@ -162,8 +168,8 @@ set pastetoggle=<Leader>pt
 
 " toggle a higlight at &textwidth, for keeping line sufficiently short
 function! ColorColumn()
-    if ! &textwidth 
-        set &textwidth=78
+    if ! &textwidth
+        set textwidth=78
     endif
     if &colorcolumn == ''
         set colorcolumn=+1
