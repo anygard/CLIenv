@@ -2,8 +2,6 @@
 # this overrides any vi aliases setup
 unalias vi &> /dev/null
 
-
-VIM_SERVERNAME=VIMSERVER
 VIM_VIM=""
 
 if [[ "$(uname)" == "Darwin" ]]; then
@@ -15,23 +13,33 @@ fi
 if VIM_VIM=$(which $VER) ; then
     function vi {
 
-        if [ $# -ge 1 ]; then
-            VIM_SERVERNAME=$1
-            shift
-        else
-            echo "usage: $(basename $0) <server> [file1 [file2 [file3 . . . filen ] ] ]"
-            exit
+        if [ $# -lt 1 ]; then
+            echo "Usage: $(basename $0) [-s <server>] [file1 [file2 [file3 . . . fileN ] ] ]"
+            return
         fi
 
-        if [[ ! "$($VIM_VIM --serverlist)" =~ "$VIM_SERVERNAME" ]]; then
-            # starting server if needed
-            $VIM_VIM --servername "$VIM_SERVERNAME" "$@"
-        else
+        if [ "$1" == "-s" ]; then
+            if [ $2 ]; then
+                export VIM_SERVERNAME=$(echo "$2" | tr '[:lower:]' '[:upper:]')
+                shift 2
+            else
+                echo "Usage: $(basename $0) [-s <server>] [file1 [file2 [file3 . . . fileN ] ] ]"
+                return
+            fi
+        fi
+
+        if [ ! $VIM_SERVERNAME ]; then
+            echo "No servername set, use -s to rectify"
+            return
+        fi
+
+        if [[ "$($VIM_VIM --serverlist)" =~ "$VIM_SERVERNAME" ]]; then
             # editing files
             $VIM_VIM --servername "$VIM_SERVERNAME" --remote "$@"
+        else
+            # starting server if needed
+            $VIM_VIM --servername "$VIM_SERVERNAME" "$@"
         fi
-
-
     }
 else
     if VIM_VIM=$(which vim) ; then
@@ -40,4 +48,3 @@ else
 fi
 
 unset VER
-
