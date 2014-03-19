@@ -14,7 +14,7 @@ if VIM_VIM=$(which $VER) ; then
     function vi {
 
         if [ $# -lt 1 ]; then
-            echo "Usage: $(basename $0) [-s <server>] [file1 [file2 [file3 . . . fileN ] ] ]"
+            echo "Usage: $FUNCNAME [-s <server>] [file1 [file2 [file3 . . . fileN ] ] ]"
             return
         fi
 
@@ -23,7 +23,7 @@ if VIM_VIM=$(which $VER) ; then
                 export VIM_SERVERNAME=$(echo "$2" | tr '[:lower:]' '[:upper:]')
                 shift 2
             else
-                echo "Usage: $(basename $0) [-s <server>] [file1 [file2 [file3 . . . fileN ] ] ]"
+                echo "Usage: $FUNCNAME [-s <server>] [file1 [file2 [file3 . . . fileN ] ] ]"
                 return
             fi
         fi
