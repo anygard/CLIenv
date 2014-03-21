@@ -194,6 +194,3 @@ function! Spelling()
     let g:SpellingState = g:SpellingState + 1
 endfunction
 noremap <Leader>sc :call Spelling()<cr>
-
-
-
