@@ -2,6 +2,12 @@
 # this overrides any vi aliases setup
 unalias vi &> /dev/null
 
+if [ ! -f $HOM/.vim ]; then
+    echo "Vim not setup, bailing out"
+    exit 1
+fi
+    
+
 VIM_VIM=""
 
 if [[ "$(uname)" == "Darwin" ]]; then
