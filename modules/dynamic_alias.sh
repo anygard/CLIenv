@@ -18,16 +18,17 @@
 GNU='ls --color=auto'
 BSD='ls -G'
 
-case `uname -s` in
+case $(uname -s) in
     Darwin)
-	if ls --version > /dev/null ; then
-	    alias ls=$GNU
-	else
-	    alias ls=$BSD
-	fi
+        if ls --version > /dev/null ; then
+            alias ls=$GNU
+        else
+            alias ls=$BSD
+        fi
         ;;
+
     Linux)
-	alias ls=$GNU
+	    alias ls=$GNU
         ;;
 esac
 
