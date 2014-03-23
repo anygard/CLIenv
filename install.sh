@@ -34,7 +34,7 @@ if [ "`uname -s`" = "Darwin" ]; then
 fi
 
 THISDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-SCRIPTDIR="$THISDIR/static.d" 
+SCRIPTDIR="$THISDIR/modules" 
 
 # INSTALL is the default command
 if [ "$1" = "" ]; then

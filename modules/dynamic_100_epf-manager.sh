@@ -4,10 +4,10 @@ export PROMPT_INFO_ARRAY=()
 export PROMPT_INFO_LABEL_COL=105
 export PROMPT_INFO_DATA_COL=115
 
-function prompt_info_framework {
+function epf-manager {
     PROMPT_INFO_ARRAY=()
     DELIM=""
-    for f in ~/.CLIenv/dynamic.d/prompt_info_framework.d/*  ; do
+    for f in ~/.CLIenv/modules/epf*sh  ; do
         if [ -x $f ] ; then
             BUFFER=$(source $f)
             if [ "$BUFFER" ]; then
@@ -26,4 +26,4 @@ function prompt_info_framework {
 
 }
 
-PROMPT_COMMAND_ARRAY+=('prompt_info_framework')
+PROMPT_COMMAND_ARRAY+=('epf-manager')

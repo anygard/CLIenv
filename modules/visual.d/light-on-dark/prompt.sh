@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 #       Copyright 2011, 2012, 2013 Anders Nygård
 #       
@@ -17,40 +17,26 @@
 #           You should have received a copy of the GNU General Public License
 #           along with CLIenv.  If not, see <http://www.gnu.org/licenses/>.
 
-SRC=$1
-TRG=$2
-INST=$3
-CMD=$4
+# set a fancy prompt (non-color, unless we know we "want" color)
+function prompt_prep {
+    pwd=`echo ${PWD} | awk -v h="$HOME" '{gsub(h,"~") ; print}'`
+    echo -ne "\033]0;${USER}@${HOSTNAME}: ${pwd}\007"
+}
+PROMPT_COMMAND_ARRAY+=(prompt_prep)
 
-SRCDIR=$TRG
-TRGDIR=$INST
 
-FILES="vimrc gvimrc vim"
+case "$TERM" in
+xterm-color|xterm|screen|screen-color|screen-256color|screen-bce|xterm-256color)
+    . ~/.CLIenv/modules/visual.d/attributes.sh
+    CLERROR="$DEFAULT;$RED"
+    CLUSERHOST="$DEFAULT;$GREEN"
+    CLPATH="$DEFAULT;$LIGHTBLUE"
 
-case $CMD in 
-    ENABLE)
-	for f in $FILES ; do
-	    if [ -e $SRCDIR/vim/$f -a ! -e $TRGDIR/.$f ]; then
-		ln -s $SRCDIR/vim/$f $TRGDIR/.$f
-	    fi
-	done
-	;;
+    EXITCODE=
 
-    NAME)
-	echo "vim"
-	;;
-
-    DESCRIBE)
-	echo "Complete vim configuration"
-	;;
-
-    DISABLE)
-	for f in $FILES ; do
-	    foo=$TRGDIR/.$f
-	    if [ -e $foo ]; then
-		rm $foo
-	    fi
-	done
-	;;
-
+    export PS1="\`Q=\$?; if [ \"\$Q\" -eq \"0\" ]; then echo \"\A\"; else printf \"\[\e[${CLERROR}m\]%05d\" \"\$Q\"; fi\`\[\033[00m\] \j \[\033[${CLUSERHOST}m\]\u@\h\[\033[00m\]:\[\033[${CLPATH}m\]\w\[\033[00m\]\$ "
+    ;;
+*)
+    PS1='\u@\h:\w\$ '
+    ;;
 esac

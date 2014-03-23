@@ -2,7 +2,7 @@
 # this overrides any vi aliases setup
 unalias vi &> /dev/null
 
-if [ ! -f $HOM/.vim ]; then
+if [ ! -d $HOME/.vim ]; then
     echo "Vim not setup, bailing out"
     exit 1
 fi

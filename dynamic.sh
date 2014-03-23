@@ -17,13 +17,12 @@
 #           You should have received a copy of the GNU General Public License
 #           along with CLIenv.  If not, see <http://www.gnu.org/licenses/>.
 
-
 if [ "$CLIENV_DEBUG" = "Y" ]; then
     set -x
 fi
 
 THISDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-DYNDIR=$THISDIR/dynamic.d
+DYNDIR=$THISDIR/modules
 CONF_FILE=$THISDIR/etc/dynamic.conf
 
 if [ ! -e $DYNDIR ]; then
@@ -37,7 +36,7 @@ fi
 
 pushd $DYNDIR > /dev/null
 
-for a in `ls *sh` ; do
+for a in `ls dynamic_*sh` ; do
     if [ -f $a -a -x $a ]; then
 	source ./$a
     fi
