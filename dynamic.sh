@@ -17,8 +17,6 @@
 #           You should have received a copy of the GNU General Public License
 #           along with CLIenv.  If not, see <http://www.gnu.org/licenses/>.
 
-set -x
-
 if [ "$CLIENV_DEBUG" = "Y" ]; then
     set -x
 fi
