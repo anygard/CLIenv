@@ -20,7 +20,7 @@ BSD='ls -G'
 
 case $(uname -s) in
     Darwin)
-        if ls --version > /dev/null ; then
+        if [[ $(which ls) =~ "gnubin" ]]; then
             alias ls=$GNU
         else
             alias ls=$BSD
