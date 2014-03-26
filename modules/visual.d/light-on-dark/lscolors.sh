@@ -17,7 +17,7 @@
 #           You should have received a copy of the GNU General Public License
 #           along with CLIenv.  If not, see <http://www.gnu.org/licenses/>.
 
-. ~/.theme/attributes.sh
+. ~/.CLIenv/modules/visual.d/attributes.sh
 
 EXECUTABLE=$GREEN
 REGULAR=$DEFAULT

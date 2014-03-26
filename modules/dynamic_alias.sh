@@ -18,9 +18,15 @@
 GNU='ls --color=auto'
 BSD='ls -G'
 
+if [ "$CLIENV_DEBUG" = "Y" ]; then
+    set -x
+    echo $SHELL
+    which $SHELL
+fi
+
 case $(uname -s) in
     Darwin)
-        if [[ $(which ls) =~ "gnubin" ]]; then
+        if [[ $SHELL =~ "opt/local" ]]; then
             alias ls=$GNU
         else
             alias ls=$BSD

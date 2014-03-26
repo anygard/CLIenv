@@ -22,12 +22,7 @@ if [ "$CLIENV_DEBUG" = "Y" ]; then
 fi
 
 THISDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-
-if [ -z $VISUAL_THEME ]; then
-    VISDIR=$THISDIR/visual.d/default
-else
-    VISDIR=$THISDIR/visual.d/$VISUAL_THEME
-fi
+VISDIR=$THISDIR/visual.d/default
 
 if [ ! -e $VISDIR ]; then
     echo "Visual dir does not exist, $VISDIR"
